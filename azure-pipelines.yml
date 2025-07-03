@@ -1,0 +1,18 @@
+trigger:
+    - main
+
+pool:
+    vmImage: ubuntu-latest
+
+variables:
+  aws.rolecredential.maxduration: "3600" # Can be set from 900 - 43200s
+  
+steps:
+    - task: AWSCLI@1
+      displayName: "Running aws-cli get-caller-identity"
+      # continueOnError: true # If you need the pipeline to succeed
+      inputs:
+        awsCredentials: "aws-oidc-federation-1"
+        regionName: 'aws-region-name'
+        awsCommand: 'sts'
+        awsSubCommand: 'get-caller-identity'
